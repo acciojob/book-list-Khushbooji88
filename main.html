@@ -1,16 +1,98 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-	<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyBookList</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        input {
+            margin-right: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .delete {
+            color: red;
+            cursor: pointer;
+        }
+    </style>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
+    <h1>MyBookList</h1>
+    <div class="form-group">
+        <input type="text" id="title" placeholder="Title">
+        <input type="text" id="author" placeholder="Author">
+        <input type="text" id="isbn" placeholder="ISBN#">
+        <button id="submit">Add Book</button>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN#</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="book-list">
+        </tbody>
+    </table>
 
+    <script>
+        const submitButton = document.getElementById("submit");
+        const bookList = document.getElementById("book-list");
+
+        submitButton.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            const title = document.getElementById("title").value.trim();
+            const author = document.getElementById("author").value.trim();
+            const isbn = document.getElementById("isbn").value.trim();
+
+            if (title === "" || author === "" || isbn === "") {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td>${title}</td>
+                <td>${author}</td>
+                <td>${isbn}</td>
+                <td><button class="delete">Clear</button></td>
+            `;
+
+            bookList.appendChild(row);
+
+            document.getElementById("title").value = "";
+            document.getElementById("author").value = "";
+            document.getElementById("isbn").value = "";
+        });
+
+        bookList.addEventListener("click", (e) => {
+            if (e.target.classList.contains("delete")) {
+                e.target.parentElement.parentElement.remove();
+            }
+        });
+    </script>
 </body>
-
 </html>
+
